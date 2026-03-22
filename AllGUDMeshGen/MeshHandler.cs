@@ -290,7 +290,7 @@ namespace AllGUD
                 // skip if no record or Model
                 if (target == null || target.Model == null)
                     continue;
-                string modelPath = target.Model.File.RawPath.ToLower();
+                string modelPath = target.Model.File.GivenPath.ToLower();
                 if (modelPath.Contains("weapon", StringComparison.OrdinalIgnoreCase) ||
                     modelPath.Contains("armor", StringComparison.OrdinalIgnoreCase))
                 {
@@ -637,11 +637,11 @@ namespace AllGUD
                     {
                         try
                         {
-                            string rawPath = bsaFiles[bsaMesh.Path.ToLower()];
-                            TargetMeshInfo meshInfo = targetMeshes[rawPath];
-                            if (bsaDone.ContainsKey(rawPath))
+                            string GivenPath = bsaFiles[bsaMesh.Path.ToLower()];
+                            TargetMeshInfo meshInfo = targetMeshes[GivenPath];
+                            if (bsaDone.ContainsKey(GivenPath))
                             {
-                                _settings.diagnostics.logger.WriteLine("Mesh {0} from BSA {1} already processed from BSA {2}", bsaMesh.Path, bsaFile, bsaDone[rawPath]);
+                                _settings.diagnostics.logger.WriteLine("Mesh {0} from BSA {1} already processed from BSA {2}", bsaMesh.Path, bsaFile, bsaDone[GivenPath]);
                                 return;
                             }
 
@@ -655,10 +655,10 @@ namespace AllGUD
                                 using (pathNif.Value)
                                 {
                                     _settings.diagnostics.logger.WriteLine("Transform mesh {0} from BSA {1}", bsaMesh.Path, bsaFile);
-                                    GenerateMeshes(pathNif.Value, pathNif.Key, targetMeshes[rawPath].modelType);
+                                    GenerateMeshes(pathNif.Value, pathNif.Key, targetMeshes[GivenPath].modelType);
                                 }
                             }
-                            bsaDone.Add(rawPath, bsaFile);
+                            bsaDone.Add(GivenPath, bsaFile);
                         }
                         catch (Exception e)
                         {
